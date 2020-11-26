@@ -1,7 +1,7 @@
 # todo-app-flutter
  Simple todo app
  
- ##Features:
+## Features:
 - Cross individual tasks
 - Clear todo list
 
