@@ -1,5 +1,8 @@
+//Widget that holds a task
+
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/todoItem.dart';
+import 'package:todo_app/screens/editTodoScreen.dart';
 
 class TodoCard extends StatefulWidget {
   final TodoItem todo;
@@ -18,6 +21,17 @@ class _TodoCardState extends State<TodoCard> {
     });
   }
 
+  void editTask() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => EditTodoScreen(widget.todo, context)),
+    );
+    if (result) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Row(children: <Widget>[
@@ -28,6 +42,7 @@ class _TodoCardState extends State<TodoCard> {
                 ? TextStyle(
                     decoration: TextDecoration.lineThrough, color: Colors.grey)
                 : TextStyle(decoration: TextDecoration.none))),
+        onTap: (!widget.todo.isDone() ? editTask : null),
       )),
       widget.todo.isDone()
           ? SizedBox.shrink()

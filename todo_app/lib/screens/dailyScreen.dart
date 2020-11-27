@@ -1,5 +1,8 @@
+//Screen with the "daily" view
+
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/todoItem.dart';
+import 'package:todo_app/screens/addTodoScreen.dart';
 import 'package:todo_app/widgets/todoCard.dart';
 
 class DailyScreen extends StatefulWidget {
@@ -10,12 +13,15 @@ class DailyScreen extends StatefulWidget {
 class DailyScreenState extends State<DailyScreen> {
   List<TodoItem> _todoItems = [];
 
-  void _addTodoItem(String task) {
-    if (task.length > 0) {
-      setState(() {
-        TodoItem todo = new TodoItem(task);
-        _todoItems.add(todo);
-      });
+  //builds Add task screen
+  void _addTask() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddTodoScreen(_todoItems, context)),
+    );
+    if (result) {
+      setState(() {});
     }
   }
 
@@ -29,24 +35,6 @@ class DailyScreenState extends State<DailyScreen> {
         }
       },
     );
-  }
-
-  void _pushAddTodoScreen() {
-    // Push this page onto the stack
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-      return new Scaffold(
-          appBar: new AppBar(title: new Text('Add a new task')),
-          body: new TextField(
-            autofocus: true,
-            onSubmitted: (val) {
-              _addTodoItem(val);
-              Navigator.pop(context); // Close the add todo screen
-            },
-            decoration: new InputDecoration(
-                hintText: 'Enter something to do...',
-                contentPadding: const EdgeInsets.all(16.0)),
-          ));
-    }));
   }
 
   void _removeAllTodoItem() {
@@ -88,15 +76,12 @@ class DailyScreenState extends State<DailyScreen> {
       appBar: new AppBar(
         title: new Text('Todo List'),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.delete_forever),
-              onPressed: this._promptRemoveAllTodoItem)
+          IconButton(icon: Icon(Icons.delete_forever), onPressed: this._addTask)
         ],
       ),
       body: _buildTodoList(),
       floatingActionButton: new FloatingActionButton(
-          onPressed:
-              _pushAddTodoScreen, // pressing this button now opens the new screen
+          onPressed: _addTask, // pressing this button now opens the new screen
           tooltip: 'Add task',
           child: new Icon(Icons.add)),
     );
