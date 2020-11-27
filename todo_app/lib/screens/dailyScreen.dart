@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/todoItem.dart';
+import 'package:todo_app/models/todoItem.dart';
+import 'package:todo_app/widgets/todoCard.dart';
 
-class TodoList extends StatefulWidget {
+class DailyScreen extends StatefulWidget {
   @override
-  createState() => new TodoListState();
+  createState() => new DailyScreenState();
 }
 
-class TodoListState extends State<TodoList> {
+class DailyScreenState extends State<DailyScreen> {
   List<TodoItem> _todoItems = [];
 
   void _addTodoItem(String task) {
@@ -18,31 +19,13 @@ class TodoListState extends State<TodoList> {
     }
   }
 
-  // Build a single todo item
-  Widget _buildTodoItem(TodoItem todo, int index) {
-    return new Row(children: <Widget>[
-      Expanded(
-          child: ListTile(
-        title: new Text(todo.getBody(),
-            style: (todo.isDone()
-                ? TextStyle(
-                    decoration: TextDecoration.lineThrough, color: Colors.grey)
-                : TextStyle(decoration: TextDecoration.none))),
-      )),
-      todo.isDone()
-          ? SizedBox.shrink()
-          : IconButton(
-              icon: Icon(Icons.done), onPressed: () => _crossTodoItem(index))
-    ]);
-  }
-
   // Build the whole list of todo items
   Widget _buildTodoList() {
     return new ListView.builder(
       // ignore: missing_return
       itemBuilder: (context, index) {
         if (index < _todoItems.length) {
-          return _buildTodoItem(_todoItems[index], index);
+          return TodoCard(_todoItems[index], index);
         }
       },
     );
@@ -64,12 +47,6 @@ class TodoListState extends State<TodoList> {
                 contentPadding: const EdgeInsets.all(16.0)),
           ));
     }));
-  }
-
-  void _crossTodoItem(int index) {
-    setState(() {
-      _todoItems[index].markAsDone();
-    });
   }
 
   void _removeAllTodoItem() {

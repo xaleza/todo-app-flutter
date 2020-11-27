@@ -1,6 +1,6 @@
 // Import MaterialApp and other widgets which we can use to quickly create a material app
 import 'package:flutter/material.dart';
-import 'package:todo_app/todoList.dart';
+import 'package:todo_app/screens/dailyScreen.dart';
 
 void main() => runApp(new TodoApp());
 
@@ -13,6 +13,6 @@ class TodoApp extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: new TodoList());
+        home: new DailyScreen());
   }
 }
