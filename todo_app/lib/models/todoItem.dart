@@ -1,5 +1,8 @@
 // A single item of the Todo list
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class TodoItem {
   String _body;
   bool _isDone = false;
@@ -20,5 +23,9 @@ class TodoItem {
 
   void editBody(String body) {
     _body = body;
+  }
+
+  Widget symbol() {
+    return new Icon(Icons.fiber_manual_record, size: 18);
   }
 }

@@ -1,6 +1,7 @@
 //Screen used to add tasks
-
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/eventItem.dart';
+import 'package:todo_app/models/noteItem.dart';
 import 'package:todo_app/models/todoItem.dart';
 
 class AddTodoScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class AddTodoScreen extends StatefulWidget {
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
   TextEditingController _addingController;
+  List<bool> _selections = [true, false, false];
 
   @override
   void initState() {
@@ -28,9 +30,59 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     super.dispose();
   }
 
+  Widget typeOfTodo() {
+    return ToggleButtons(
+      children: <Widget>[
+        Column(children: [
+          Icon(
+            Icons.fiber_manual_record,
+            size: 40,
+          ),
+          Text(
+            "Task",
+            style: TextStyle(fontSize: 20),
+          )
+        ]),
+        Column(children: [
+          Icon(
+            Icons.event_note,
+            size: 40,
+          ),
+          Text("Event", style: TextStyle(fontSize: 20))
+        ]),
+        Column(children: [
+          Icon(
+            Icons.remove,
+            size: 40,
+          ),
+          Text("Note", style: TextStyle(fontSize: 20))
+        ]),
+      ],
+      isSelected: _selections,
+      onPressed: (int index) {
+        setState(() {
+          for (int buttonIndex = 0;
+              buttonIndex < _selections.length;
+              buttonIndex++) {
+            if (buttonIndex == index) {
+              _selections[buttonIndex] = true;
+            } else {
+              _selections[buttonIndex] = false;
+            }
+          }
+        });
+      },
+    );
+  }
+
   TodoItem _addTodoItem(String task) {
     if (task.length > 0) {
-      widget.todos.add(new TodoItem(task));
+      if (_selections[0])
+        widget.todos.add(new TodoItem(task));
+      else if (_selections[1])
+        widget.todos.add(new EventItem(task));
+      else
+        widget.todos.add(new NoteItem(task));
     }
   }
 
@@ -56,8 +108,14 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
       appBar: AppBar(
         title: Text("Add new task"),
       ),
-      body: Container(
-        child: _addTaskTextField(),
+      body: Column(
+        children: [
+          _addTaskTextField(),
+          SizedBox(
+            height: 15,
+          ),
+          typeOfTodo()
+        ],
       ),
     );
   }

@@ -76,7 +76,9 @@ class DailyScreenState extends State<DailyScreen> {
       appBar: new AppBar(
         title: new Text('Todo List'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.delete_forever), onPressed: this._addTask)
+          IconButton(
+              icon: Icon(Icons.delete_forever),
+              onPressed: this._promptRemoveAllTodoItem)
         ],
       ),
       body: _buildTodoList(),

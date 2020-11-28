@@ -37,6 +37,7 @@ class _TodoCardState extends State<TodoCard> {
     return new Row(children: <Widget>[
       Expanded(
           child: ListTile(
+        leading: widget.todo.symbol(),
         title: new Text(widget.todo.getBody(),
             style: (widget.todo.isDone()
                 ? TextStyle(
