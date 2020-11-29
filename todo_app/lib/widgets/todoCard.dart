@@ -15,9 +15,9 @@ class TodoCard extends StatefulWidget {
 }
 
 class _TodoCardState extends State<TodoCard> {
-  void crossTodoItem(TodoItem todo) {
+  void crossTodoItem() {
     setState(() {
-      todo.markAsDone();
+      widget.todo.markAsDone();
     });
   }
 
@@ -32,24 +32,26 @@ class _TodoCardState extends State<TodoCard> {
     }
   }
 
+  Widget todoIcon() {
+    return new IconButton(
+        splashColor: widget.todo.isNote() ? Colors.transparent : Colors.grey,
+        icon: widget.todo.getIcon(),
+        onPressed: crossTodoItem);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Row(children: <Widget>[
       Expanded(
           child: ListTile(
-        leading: widget.todo.symbol(),
+        leading: todoIcon(),
         title: new Text(widget.todo.getBody(),
-            style: (widget.todo.isDone()
-                ? TextStyle(
-                    decoration: TextDecoration.lineThrough, color: Colors.grey)
+            style: (widget.todo.isDone() && !widget.todo.isNote()
+                ? TextStyle(color: Colors.grey)
                 : TextStyle(decoration: TextDecoration.none))),
-        onTap: (!widget.todo.isDone() ? editTask : null),
+        onTap:
+            (!widget.todo.isDone() || widget.todo.isNote() ? editTask : null),
       )),
-      widget.todo.isDone()
-          ? SizedBox.shrink()
-          : IconButton(
-              icon: Icon(Icons.done),
-              onPressed: () => crossTodoItem(widget.todo))
     ]);
   }
 }

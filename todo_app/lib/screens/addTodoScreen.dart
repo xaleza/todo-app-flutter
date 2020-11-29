@@ -36,7 +36,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         Column(children: [
           Icon(
             Icons.fiber_manual_record,
-            size: 40,
+            size: 30,
           ),
           Text(
             "Task",
@@ -46,14 +46,14 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         Column(children: [
           Icon(
             Icons.event_note,
-            size: 40,
+            size: 30,
           ),
           Text("Event", style: TextStyle(fontSize: 20))
         ]),
         Column(children: [
           Icon(
             Icons.remove,
-            size: 40,
+            size: 30,
           ),
           Text("Note", style: TextStyle(fontSize: 20))
         ]),
