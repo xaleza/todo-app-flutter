@@ -34,6 +34,7 @@ class _TodoCardState extends State<TodoCard> {
 
   Widget todoIcon() {
     return new IconButton(
+        //prevents click effect on notes
         splashColor: widget.todo.isNote() ? Colors.transparent : Colors.grey,
         icon: widget.todo.getIcon(),
         onPressed: crossTodoItem);
@@ -50,6 +51,7 @@ class _TodoCardState extends State<TodoCard> {
                 ? TextStyle(color: Colors.grey)
                 : TextStyle(decoration: TextDecoration.none))),
         onTap:
+            //if the widget is done and not a note, it cannot be edited,
             (!widget.todo.isDone() || widget.todo.isNote() ? editTask : null),
       )),
     ]);
