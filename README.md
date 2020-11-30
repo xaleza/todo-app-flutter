@@ -2,7 +2,11 @@
  Simple todo app
  
 ## Features:
-- Cross individual tasks
+- Add tasks
+- Add events
+- Add notes
+- Complete tasks and events
+- Delete individual task, event or note by sliding to the left
 - Clear todo list
 
 ![main_page](preview1.png)
