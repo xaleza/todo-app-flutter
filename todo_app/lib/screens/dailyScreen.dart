@@ -1,6 +1,7 @@
 //Screen with the "daily" view
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/models/todoItem.dart';
 import 'package:todo_app/screens/addTodoScreen.dart';
 import 'package:todo_app/widgets/todoCard.dart';
@@ -31,7 +32,18 @@ class DailyScreenState extends State<DailyScreen> {
       // ignore: missing_return
       itemBuilder: (context, index) {
         if (index < _todoItems.length) {
-          return TodoCard(_todoItems[index], index);
+          return Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            child: TodoCard(_todoItems[index], index),
+            secondaryActions: <Widget>[
+              IconSlideAction(
+                caption: 'Delete',
+                color: Colors.red,
+                icon: Icons.delete,
+                onTap: () => removeTodoItem(index),
+              ),
+            ],
+          );
         }
       },
     );
@@ -40,6 +52,12 @@ class DailyScreenState extends State<DailyScreen> {
   void _removeAllTodoItem() {
     setState(() {
       _todoItems.clear();
+    });
+  }
+
+  void removeTodoItem(int index) {
+    setState(() {
+      _todoItems.removeAt(index);
     });
   }
 
