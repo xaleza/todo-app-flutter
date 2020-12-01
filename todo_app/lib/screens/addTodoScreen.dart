@@ -75,7 +75,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     );
   }
 
-  TodoItem _addTodoItem(String task) {
+  void _addTodoItem(String task) {
     if (task.length > 0) {
       if (_selections[0])
         widget.todos.add(new TodoItem(task));
