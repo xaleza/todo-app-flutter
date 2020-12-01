@@ -67,6 +67,14 @@ class DailyScreenState extends State<DailyScreen> {
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
               child: TodoCard(items[index], index),
+              actions: <Widget>[
+                IconSlideAction(
+                  caption: 'Forward',
+                  color: Colors.blue,
+                  icon: Icons.double_arrow,
+                  onTap: () => forwardTodoItem(index),
+                )
+              ],
               secondaryActions: <Widget>[
                 IconSlideAction(
                   caption: 'Delete',
@@ -101,6 +109,21 @@ class DailyScreenState extends State<DailyScreen> {
     String dateString = DateFormat(widgetKeyFormat).format(_currentPageDate);
     setState(() {
       _todoItems[dateString].removeAt(index);
+      _buildPages();
+    });
+  }
+
+  void forwardTodoItem(int index) {
+    String dateString = DateFormat(widgetKeyFormat).format(_currentPageDate);
+    String dateStringNew = DateFormat(widgetKeyFormat)
+        .format(_currentPageDate.add(Duration(days: 1)));
+    TodoItem todo = _todoItems[dateString][index];
+    if (!_todoItems.containsKey(dateStringNew)) {
+      _todoItems.addAll({dateStringNew: []});
+    }
+    setState(() {
+      _todoItems[dateString].removeAt(index);
+      _todoItems[dateStringNew].add(todo);
       _buildPages();
     });
   }
