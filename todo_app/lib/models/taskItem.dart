@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/todoItem.dart';
 
-class NoteItem extends TodoItem {
-  NoteItem(String body) : super(body);
-  Icon _icon = Icon(Icons.remove, size: 18, color: Colors.black);
+class TaskItem extends TodoItem {
+  TaskItem(String body) : super(body);
+  Icon _icon = Icon(Icons.fiber_manual_record, size: 18, color: Colors.black);
+  Icon _iconDone = Icon(Icons.done);
 
   @override
   bool isNote() {
@@ -18,5 +19,6 @@ class NoteItem extends TodoItem {
   @override
   void markAsDone() {
     super.markAsDone();
+    _icon = _iconDone;
   }
 }

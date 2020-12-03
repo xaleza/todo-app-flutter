@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/models/eventItem.dart';
 import 'package:todo_app/models/noteItem.dart';
+import 'package:todo_app/models/taskItem.dart';
 import 'package:todo_app/models/todoItem.dart';
 
 class AddTodoScreen extends StatefulWidget {
@@ -78,7 +79,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   void _addTodoItem(String task) {
     if (task.length > 0) {
       if (_selections[0])
-        widget.todos.add(new TodoItem(task));
+        widget.todos.add(new TaskItem(task));
       else if (_selections[1])
         widget.todos.add(new EventItem(task));
       else
