@@ -5,13 +5,14 @@ class Month {
   int _year;
   int _month;
   int _numOfDays;
-  List<Day> _days;
+  List<Day> _days = List<Day>();
   var dateUtility = DateUtil();
 
   Month(this._month, this._year) {
     _numOfDays = dateUtility.daysInMonth(_month, _year);
     for (var i = 1; i <= _numOfDays; i++) {
-      _days.add(new Day(i));
+      Day day = new Day(i);
+      _days.add(day);
     }
   }
 
@@ -25,5 +26,9 @@ class Month {
 
   List getDays() {
     return _days;
+  }
+
+  Day getDay(int d) {
+    return _days[d - 1];
   }
 }

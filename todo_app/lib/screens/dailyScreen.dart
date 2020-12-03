@@ -1,12 +1,14 @@
 //Screen with the "daily" view
 
+import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
+import 'package:todo_app/models/month.dart';
 import 'package:todo_app/models/todoItem.dart';
+import 'package:todo_app/models/year.dart';
 import 'package:todo_app/screens/addTodoScreen.dart';
 import 'package:todo_app/widgets/todoCard.dart';
-import 'package:intl/intl.dart';
 
 class DailyScreen extends StatefulWidget {
   @override
@@ -14,13 +16,16 @@ class DailyScreen extends StatefulWidget {
 }
 
 class DailyScreenState extends State<DailyScreen> {
-  Map<String, List<TodoItem>> _todoItems = Map();
+  Year year = new Year(2020);
   DateTime selectedDate = DateTime.now();
-  DateTime startDate = DateTime.now().subtract(Duration(days: 200));
-  DateTime endDate = DateTime.now().add(Duration(days: 200));
+  DateTime startDate =
+      DateTime.utc(DateTime.now().year, DateTime.now().month, 1);
+  DateTime endDate = DateTime.utc(DateTime.now().year, DateTime.now().month,
+      DateUtil().daysInMonth(DateTime.now().month, DateTime.now().year));
 
   // this date will update every time the page changes
   DateTime _currentPageDate;
+  Month _currentMonth;
 
   // stores the todoCards in each date
   Map<String, Widget> widgets = Map();
@@ -28,42 +33,47 @@ class DailyScreenState extends State<DailyScreen> {
 
   // builds all the todo lists for all days
   _buildPages() {
-    _todoItems.forEach((key, values) {
-      DateTime dateTime = DateTime.parse(key);
-      var widget = _buildTodoList(dateTime);
-      widgets.addAll({key: widget});
+    List days = _currentMonth.getDays();
+    days.forEach((day) {
+      String dayString;
+      if (day.getDay() < 10)
+        dayString = "0" + day.getDay().toString();
+      else
+        dayString = day.getDay().toString();
+      String formatedDate = year.getYear().toString() +
+          "-" +
+          _currentMonth.getMonth().toString() +
+          "-" +
+          dayString;
+      day.getDay().toString();
+      var widget = _buildTodoList(day.getDay());
+      widgets.addAll({formatedDate: widget});
     });
   }
 
   //builds Add task screen
   void _addTask() async {
-    String dateString = DateFormat(widgetKeyFormat).format(_currentPageDate);
-    if (!_todoItems.containsKey(dateString)) {
-      _todoItems.addAll({dateString: []});
-    }
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddTodoScreen(_todoItems[dateString], context)),
+          builder: (context) => AddTodoScreen(
+              _currentMonth.getDay(_currentPageDate.day), context)),
     );
     if (result) {
       setState(() {
-        print(_todoItems.keys);
         _buildPages();
       });
     }
   }
 
   // Build the list of Todos for a given date
-  Widget _buildTodoList(DateTime date) {
-    String dateString = DateFormat(widgetKeyFormat).format(date);
-    if (_todoItems.containsKey(dateString)) {
-      List<TodoItem> items = _todoItems[dateString];
+  Widget _buildTodoList(int day) {
+    List<TodoItem> items = _currentMonth.getDay(day).getTodos();
+    if (items.isNotEmpty)
       return new ListView.builder(
-        // ignore: missing_return
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          if (index < _todoItems[dateString].length) {
+          // ignore: missing_return
+          itemCount: items.length,
+          itemBuilder: (context, index) {
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
               child: TodoCard(items[index], index),
@@ -72,7 +82,7 @@ class DailyScreenState extends State<DailyScreen> {
                   caption: 'Forward',
                   color: Colors.blue,
                   icon: Icons.double_arrow,
-                  onTap: () => forwardTodoItem(index),
+                  onTap: () => /* forwardTodoItem(index) */ null,
                 )
               ],
               secondaryActions: <Widget>[
@@ -84,13 +94,7 @@ class DailyScreenState extends State<DailyScreen> {
                 ),
               ],
             );
-          }
-          return Center(
-            child: Text("No events"),
-          );
-        },
-      );
-    }
+          });
     // default widget to display on the page
     return Center(
       child: Text("No events"),
@@ -99,25 +103,24 @@ class DailyScreenState extends State<DailyScreen> {
 
   void _removeAllTodoItem() {
     setState(() {
-      _todoItems.clear();
       widgets.clear();
       _buildPages();
     });
   }
 
   void removeTodoItem(int index) {
-    String dateString = DateFormat(widgetKeyFormat).format(_currentPageDate);
     setState(() {
-      _todoItems[dateString].removeAt(index);
+      _currentMonth.getDay(_currentPageDate.day).getTodos().removeAt(index);
       _buildPages();
     });
   }
 
-  void forwardTodoItem(int index) {
+  /* void forwardTodoItem(int index) {
     String dateString = DateFormat(widgetKeyFormat).format(_currentPageDate);
     String dateStringNew = DateFormat(widgetKeyFormat)
         .format(_currentPageDate.add(Duration(days: 1)));
-    TodoItem todo = _todoItems[dateString][index];
+    TodoItem todo =
+        _currentMonth.getDay(_currentPageDate.day).getTodos()[index];
     if (!_todoItems.containsKey(dateStringNew)) {
       _todoItems.addAll({dateStringNew: []});
     }
@@ -126,7 +129,7 @@ class DailyScreenState extends State<DailyScreen> {
       _todoItems[dateStringNew].add(todo);
       _buildPages();
     });
-  }
+  } */
 
   void clearTodoItems() {
     setState(() {
@@ -157,8 +160,9 @@ class DailyScreenState extends State<DailyScreen> {
 
   @override
   void initState() {
-    _buildPages();
     _currentPageDate = selectedDate;
+    _currentMonth = year.getMonth(_currentPageDate.month);
+    _buildPages();
     super.initState();
   }
 
@@ -191,6 +195,7 @@ class DailyScreenState extends State<DailyScreen> {
         ),
         onDateChange: (direction, DateTime date) {
           _currentPageDate = date;
+          _currentMonth = year.getMonth(_currentPageDate.month);
         },
         widgets: widgets,
         widgetKeyFormat: widgetKeyFormat,

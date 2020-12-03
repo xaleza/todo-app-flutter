@@ -1,15 +1,15 @@
 //Screen used to add tasks
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/day.dart';
 import 'package:todo_app/models/eventItem.dart';
 import 'package:todo_app/models/noteItem.dart';
 import 'package:todo_app/models/taskItem.dart';
-import 'package:todo_app/models/todoItem.dart';
 
 class AddTodoScreen extends StatefulWidget {
-  final List<TodoItem> todos;
+  final Day day;
   final BuildContext context;
 
-  AddTodoScreen(this.todos, this.context);
+  AddTodoScreen(this.day, this.context);
 
   @override
   _AddTodoScreenState createState() => _AddTodoScreenState();
@@ -79,11 +79,11 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   void _addTodoItem(String task) {
     if (task.length > 0) {
       if (_selections[0])
-        widget.todos.add(new TaskItem(task));
+        widget.day.addTodo(new TaskItem(task));
       else if (_selections[1])
-        widget.todos.add(new EventItem(task));
+        widget.day.addTodo(new EventItem(task));
       else
-        widget.todos.add(new NoteItem(task));
+        widget.day.addTodo(new NoteItem(task));
     }
   }
 
