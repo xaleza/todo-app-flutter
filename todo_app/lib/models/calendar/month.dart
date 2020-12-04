@@ -1,5 +1,5 @@
 import 'package:date_util/date_util.dart';
-import 'package:todo_app/models/day.dart';
+import 'package:todo_app/models/calendar/day.dart';
 
 class Month {
   int _year;

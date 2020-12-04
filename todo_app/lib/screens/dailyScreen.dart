@@ -4,9 +4,9 @@ import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:scrolling_day_calendar/scrolling_day_calendar.dart';
-import 'package:todo_app/models/month.dart';
+import 'package:todo_app/models/calendar/month.dart';
 import 'package:todo_app/models/todoItem.dart';
-import 'package:todo_app/models/year.dart';
+import 'package:todo_app/models/calendar/year.dart';
 import 'package:todo_app/screens/addTodoScreen.dart';
 import 'package:todo_app/widgets/todoCard.dart';
 
@@ -36,10 +36,10 @@ class DailyScreenState extends State<DailyScreen> {
     List days = _currentMonth.getDays();
     days.forEach((day) {
       String dayString;
-      if (day.getDay() < 10)
-        dayString = "0" + day.getDay().toString();
+      if (day.getDay() < 9)
+        dayString = "0" + (day.getDay() + 1).toString();
       else
-        dayString = day.getDay().toString();
+        dayString = (day.getDay() + 1).toString();
       String formatedDate = year.getYear().toString() +
           "-" +
           _currentMonth.getMonth().toString() +

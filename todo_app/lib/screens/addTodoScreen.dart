@@ -1,6 +1,6 @@
 //Screen used to add tasks
 import 'package:flutter/material.dart';
-import 'package:todo_app/models/day.dart';
+import 'package:todo_app/models/calendar/day.dart';
 import 'package:todo_app/models/eventItem.dart';
 import 'package:todo_app/models/noteItem.dart';
 import 'package:todo_app/models/taskItem.dart';
