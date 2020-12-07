@@ -8,6 +8,7 @@ import 'package:todo_app/models/calendar/month.dart';
 import 'package:todo_app/models/todoItem.dart';
 import 'package:todo_app/models/calendar/year.dart';
 import 'package:todo_app/screens/addTodoScreen.dart';
+import 'package:todo_app/screens/monthlyScreen.dart';
 import 'package:todo_app/widgets/todoCard.dart';
 
 class DailyScreen extends StatefulWidget {
@@ -158,6 +159,16 @@ class DailyScreenState extends State<DailyScreen> {
         });
   }
 
+  void monthlyVew() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MonthlyScreen(this.year)),
+    );
+    if (result) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     _currentPageDate = selectedDate;
@@ -172,6 +183,8 @@ class DailyScreenState extends State<DailyScreen> {
       appBar: new AppBar(
         title: new Text('Todo List'),
         actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.calendar_today), onPressed: this.monthlyVew),
           IconButton(
               icon: Icon(Icons.delete_forever),
               onPressed: this._promptRemoveAllTodoItem)

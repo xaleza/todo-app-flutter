@@ -27,6 +27,7 @@ dependencies:
   intl: ^0.15.8
   scrolling_day_calendar:
   date_util: ^0.1.4
+  table_calendar: ^2.3.1
   
 
 
