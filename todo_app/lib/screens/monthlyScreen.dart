@@ -86,7 +86,7 @@ class MonthlyScreenState extends State<MonthlyScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Teste"),
+        title: Text("Monthly View"),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -109,6 +109,7 @@ class MonthlyScreenState extends State<MonthlyScreen>
     return TableCalendar(
       calendarController: _calendarController,
       events: _events,
+      availableCalendarFormats: const {CalendarFormat.month: "Month"},
       holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
@@ -118,12 +119,10 @@ class MonthlyScreenState extends State<MonthlyScreen>
         outsideDaysVisible: false,
       ),
       headerStyle: HeaderStyle(
+        centerHeaderTitle: true,
+        formatButtonVisible: false,
         formatButtonTextStyle:
             TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
-        formatButtonDecoration: BoxDecoration(
-          color: Colors.deepOrange[400],
-          borderRadius: BorderRadius.circular(16.0),
-        ),
       ),
       onDaySelected: _onDaySelected,
       onVisibleDaysChanged: _onVisibleDaysChanged,
