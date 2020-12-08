@@ -28,5 +28,9 @@ abstract class TodoItem {
     return false;
   }
 
+  bool isEvent() {
+    return false;
+  }
+
   Widget getIcon();
 }

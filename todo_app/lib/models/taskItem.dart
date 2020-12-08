@@ -7,11 +7,6 @@ class TaskItem extends TodoItem {
   Icon _iconDone = Icon(Icons.done);
 
   @override
-  bool isNote() {
-    return true;
-  }
-
-  @override
   Widget getIcon() {
     return _icon;
   }

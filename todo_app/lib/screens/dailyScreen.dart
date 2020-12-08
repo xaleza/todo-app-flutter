@@ -77,7 +77,7 @@ class DailyScreenState extends State<DailyScreen> {
           itemBuilder: (context, index) {
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
-              child: TodoCard(items[index], index),
+              child: TodoCard(items[index]),
               actions: <Widget>[
                 IconSlideAction(
                   caption: 'Forward',

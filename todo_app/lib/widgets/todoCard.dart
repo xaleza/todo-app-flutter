@@ -6,9 +6,8 @@ import 'package:todo_app/screens/editTodoScreen.dart';
 
 class TodoCard extends StatefulWidget {
   final TodoItem todo;
-  final int index;
 
-  const TodoCard(this.todo, this.index);
+  const TodoCard(this.todo);
 
   @override
   _TodoCardState createState() => _TodoCardState();

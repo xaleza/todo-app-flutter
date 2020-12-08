@@ -16,6 +16,11 @@ class EventItem extends TodoItem {
   }
 
   @override
+  bool isEvent() {
+    return true;
+  }
+
+  @override
   void markAsDone() {
     _icon = _iconDone;
     super.markAsDone();
