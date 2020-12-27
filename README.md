@@ -1,5 +1,5 @@
-# todo-app-flutter
- Simple todo app
+# todo-app-flutter (Closed)
+ Currently implementing this app with Clean Architecture, TDD and BLoC
  
 ## Features:
 - Add tasks, events and notes
